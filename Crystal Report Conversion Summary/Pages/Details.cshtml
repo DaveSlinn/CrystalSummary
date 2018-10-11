@@ -1,0 +1,27 @@
+﻿@page
+@model DetailsModel
+@{
+    ViewData["Title"] = "Sproc Details";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h2>@Html.DisplayTextFor(model => model.ReportName)</h2>
+
+<table class="table">
+    <tr>
+        <th>User</th>
+        <th>Number of Times Run</th>
+        <th>Earliest Run Date</th>
+        <th>Most Recently Run</th>
+    </tr>
+    @foreach (var report in Model.ReportDetails)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => report.User)</td>
+            <td>@Html.DisplayFor(modelItem => report.RunCount)</td>
+            <td>@Html.DisplayFor(modelItem => report.EarliestExecution)</td>
+            <td>@Html.DisplayFor(modelItem => report.MostRecentExecution)</td>
+        </tr>
+    }
+</table>
+
