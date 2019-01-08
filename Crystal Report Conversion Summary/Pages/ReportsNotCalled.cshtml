@@ -1,0 +1,23 @@
+﻿@page
+@model ReportsNotCalled
+@{
+    ViewData["Title"] = "Crystal Report Usage Summary Not In Use";
+}
+
+<div>
+    <h2>Crystal Report Usage Summary - Not In Use</h2>
+    <table class="table">
+        <tr>
+            <th>Stored Procedure Name</th>
+            <th>Report Name</th>
+        </tr>
+        @foreach (var report in Model.ReportsNotInUse)
+        {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => report.SprocName)</td>
+            <td>@Html.DisplayFor(modelItem => report.ReportName)</td>
+        </tr>
+        }
+    </table>
+</div>
+

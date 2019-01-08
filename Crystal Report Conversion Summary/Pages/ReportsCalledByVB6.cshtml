@@ -1,0 +1,27 @@
+﻿@page
+@model ReportsCalledByVB6
+@{
+    ViewData["Title"] = "Crystal Report Usage Summary - Called By VB6";
+}
+
+<div>
+    <h2>Crystal Report Usage Summary - Called By VB6</h2>
+    <table class="table">
+        <tr>
+            <th>Stored Procedure Name</th>
+            <th>Report Name</th>
+            <th>Number of Times Run</th>
+            <th>Most Recently Run</th>
+        </tr>
+        @foreach (var report in Model.ReportsByVB6)
+        {
+        <tr>
+            <td><a asp-page="/Details" asp-route-id="@report.SprocID" asp-route-name="@report.SprocName">@Html.DisplayFor(modelItem => report.SprocName)</a></td>
+            <td>@Html.DisplayFor(modelItem => report.ReportName)</td>
+            <td>@Html.DisplayFor(modelItem => report.ExecutionCount)</td>
+            <td>@Html.DisplayFor(modelItem => report.MostRecentExecution)</td>
+        </tr>
+        }
+    </table>
+</div>
+

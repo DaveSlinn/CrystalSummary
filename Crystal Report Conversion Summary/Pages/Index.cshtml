@@ -6,6 +6,7 @@
 
 <div>
     <h2>Crystal Report Usage Summary</h2>
+    <h4><a asp-page="/ReportsCalledByVB6">Reports Called By VB6</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a asp-page="/ReportsNotCalled">Reports Not In Use</a></h4>
     <table class="table">
         <tr>
             <th>Stored Procedure Name</th>
@@ -15,12 +16,12 @@
         </tr>
         @foreach (var report in Model.Reports)
         {
-        <tr>
-            <td><a asp-page="/Details" asp-route-id="@report.SprocID" asp-route-name="@report.SprocName">@Html.DisplayFor(modelItem => report.SprocName)</a></td>
-            <td>@Html.DisplayFor(modelItem => report.ReportName)</td>
-            <td>@Html.DisplayFor(modelItem => report.ExecutionCount)</td>
-            <td>@Html.DisplayFor(modelItem => report.MostRecentExecution)</td>
-        </tr>
+            <tr>
+                <td><a asp-page="/Details" asp-route-id="@report.SprocID" asp-route-name="@report.SprocName">@Html.DisplayFor(modelItem => report.SprocName)</a></td>
+                <td>@Html.DisplayFor(modelItem => report.ReportName)</td>
+                <td>@Html.DisplayFor(modelItem => report.ExecutionCount)</td>
+                <td>@Html.DisplayFor(modelItem => report.MostRecentExecution)</td>
+            </tr>
         }
     </table>
 </div>

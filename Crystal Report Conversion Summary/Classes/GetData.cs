@@ -113,5 +113,78 @@ namespace CrystalReportConversionSummary.Classes
             }
         }
 
+        public static async Task<IEnumerable<ReportRun>> GetSprocHistoryAsyncCalledByVB6()
+        {
+            using (var cn = new SqlConnection(ConnectionString))
+            {
+                var cmd = cn.CreateCommand();
+
+                cmd.CommandText = "dbo.GetCrystalReportSprocHistory_CalledByVB6";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                try
+                {
+                    cn.Open();
+
+                    var reader = await cmd.ExecuteReaderAsync();
+
+                    var items = new List<ReportRun>();
+
+                    while (reader.Read())
+                    {
+                        items.Add(new ReportRun()
+                        {
+                            SprocID = (int)reader["StoredProcedureID"],
+                            SprocName = (string)reader["StoredProcedure"],
+                            ReportName = (string)reader["ReportName"],
+                            ExecutionCount = (int)reader["RunCount"],
+                            MostRecentExecution = (DateTime)reader["MostRecentRun"],
+                        });
+                    }
+
+                    return items;
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+        }
+
+        public static async Task<IEnumerable<ReportRun>> GetSprocNotInUseAsync()
+        {
+            using (var cn = new SqlConnection(ConnectionString))
+            {
+                var cmd = cn.CreateCommand();
+
+                cmd.CommandText = "dbo.GetCrystalReportsNotInUse";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                try
+                {
+                    cn.Open();
+
+                    var reader = await cmd.ExecuteReaderAsync();
+
+                    var items = new List<ReportRun>();
+
+                    while (reader.Read())
+                    {
+                        items.Add(new ReportRun()
+                        {
+                            SprocName = (string)reader["RPT_StoredProcedure"],
+                            ReportName = (string)reader["RPT_ReportName"]
+                        });
+                    }
+
+                    return items;
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+        }
+
     }
 }
