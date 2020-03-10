@@ -1,0 +1,20 @@
+﻿@page
+@model RunHistoryModel
+@{
+    ViewData["Title"] = "Sproc Details";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+    <h4>@Html.DisplayTextFor(model => model.ReportName) <i>was executed by</i> @Html.DisplayTextFor(model => model.UserName) <i>on the following dates:</i></h4>
+
+<div style="column-width: 225px; column-rule: solid 1px #ccc;">
+    <ol reversed>
+        @foreach (var item in Model.RunHistory)
+        {
+            <li>
+                @Html.DisplayFor(modelItem => item.DateExecuted)
+            </li>
+        }
+    </ol>
+</div>
+

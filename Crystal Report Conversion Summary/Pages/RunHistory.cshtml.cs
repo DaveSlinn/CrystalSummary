@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace Crystal_Report_Conversion_Summary.Pages
 {
-    public class DetailsModel : PageModel
+    public class RunHistoryModel : PageModel
     {
         public string ReportName { get; set; }
 
-        public int Id { get; set; }
+        public string UserName { get; set; }
 
-        public IList<ReportDetail> ReportDetails { get; set; }
+        public IList<RunHistoryItem> RunHistory { get; set; }
 
-        public async Task OnGetAsync(int id, string name)
+        public async Task OnGetAsync(int id, string name, string user)
         {
             ReportName = name;
-            Id = id;
+            UserName = user;
 
-            ReportDetails = (await SandboxData.GetSprocHistoryDetailAsync(id)).ToList();
+            RunHistory = (await SandboxData.GetSprocRunHistoryAsync(id, user)).ToList();
         }
     }
 }

@@ -16,12 +16,12 @@
     </tr>
     @foreach (var report in Model.ReportDetails)
     {
-        <tr>
-            <td>@Html.DisplayFor(modelItem => report.User)</td>
-            <td>@Html.DisplayFor(modelItem => report.RunCount)</td>
-            <td>@Html.DisplayFor(modelItem => report.EarliestExecution)</td>
-            <td>@Html.DisplayFor(modelItem => report.MostRecentExecution)</td>
-        </tr>
+<tr>
+    <td><a asp-page="/RunHistory" asp-route-id="@Model.Id" asp-route-name="@Model.ReportName" asp-route-user="@report.User" >@Html.DisplayFor(modelItem => report.User)</a></td>    
+    <td>@Html.DisplayFor(modelItem => report.RunCount)</td>
+    <td>@Html.DisplayFor(modelItem => report.EarliestExecution)</td>
+    <td>@Html.DisplayFor(modelItem => report.MostRecentExecution)</td>
+</tr>
     }
 </table>
 

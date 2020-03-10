@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace CrystalReportConversionSummary.Classes
 {
+    public class RunHistoryItem
+    {
+        public DateTime DateExecuted { get; set; }
+    }
+
     public class ReportDetail
     {
         public string User { get; set; }
@@ -61,7 +66,6 @@ namespace CrystalReportConversionSummary.Classes
                             SprocName = (string)reader["StoredProcedureName"],
                             ReportName = (string)reader["ReportName"],
                             ExecutionCount = (int)reader["ExecutionCount"],
-                            //EarliestExecution = (DateTime)reader["EarliestExecution"],
                             MostRecentExecution = (DateTime)reader["MostRecentExecution"],
                         });
                     }
@@ -97,10 +101,51 @@ namespace CrystalReportConversionSummary.Classes
                     {
                         items.Add(new ReportDetail()
                         {
-                            User = (string)reader["ExecutionUser"],
+                            User = CleanString((string)reader["ExecutionUser"]),
                             RunCount = (int)reader["RunCount"],
                             EarliestExecution = (DateTime)reader["EarliestExecution"],
                             MostRecentExecution = (DateTime)reader["MostRecentExecution"]
+                        });
+                    }
+
+                    return items;
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+        }
+
+        private static string CleanString(string user)
+        {
+            return user.Replace(';', ' ').Trim();
+        }
+
+        public static async Task<IEnumerable<RunHistoryItem>> GetSprocRunHistoryAsync(int sprocId, string user)
+        {
+            using (var cn = new SqlConnection(ConnectionString))
+            {
+                var cmd = cn.CreateCommand();
+
+                cmd.CommandText = "dbo.GetCrystalReportSprocHistory_RunHistory";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@StoredProcedureID", sprocId);
+                cmd.Parameters.AddWithValue("@User", user);
+
+                try
+                {
+                    cn.Open();
+
+                    var reader = await cmd.ExecuteReaderAsync();
+
+                    var items = new List<RunHistoryItem>();
+
+                    while (reader.Read())
+                    {
+                        items.Add(new RunHistoryItem()
+                        {
+                            DateExecuted = (DateTime)reader["DateExecuted"]
                         });
                     }
 
